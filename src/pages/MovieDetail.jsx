@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 const MovieDetail = () => {
     const [details, setDetails] = useState([])
+    const [random, setRandom] = useState("")
+    const [video, setVideo] = useState([])
     const { state: item } = useLocation()
     console.log(item.id);
 
@@ -11,7 +13,7 @@ const MovieDetail = () => {
     const ID = item.id
     const url = `https://api.themoviedb.org/3/movie/${ID}?api_key=${API_KEY}`
     const urlVideo = `https://api.themoviedb.org/3/movie/${ID}/videos?api_key=${API_KEY}`
-    const random = Math.floor((Math.random() * 18))
+
 
     const getDetail = async () => {
 
@@ -31,10 +33,14 @@ const MovieDetail = () => {
 
         try {
 
-            const video = await axios(urlVideo)
-            const { data } = video
+            const videoData = await axios(urlVideo)
+            const { data } = videoData
             console.log(data.results)
-            console.log(data.results[random].key);
+            setVideo(data.results)
+            setRandom(Math.floor((Math.random() * (data.results.length))))
+            console.log(random)
+            console.log(video);
+            console.log(video[random]?.key)
 
         } catch (error) {
             console.log(error);
@@ -45,12 +51,11 @@ const MovieDetail = () => {
         getDetail()
         getVideo()
     }, [])
-
     return (
         <>
             <h1 className='text-gray-900 text-4xl font-bold text-center'>{details?.original_title}</h1>
-            <div className="flex justify-center w-[100px] h-96 m-5" >
-                <iframe src={`https://www.youtube.com/embed?v=${data?.results[random]?.key}`} frameborder="0"></iframe>
+            <div className="flex justify-center h-96 m-5 w-auto" >
+                <iframe src={`https://www.youtube.com/embed/${video[random]?.key}`} frameborder="0" allowfullscreen></iframe>
             </div>
             <div className="flex justify-center">
                 <div className="flex md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
