@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/icons/GoogleIcon";
+import { forgotPassword, signIn, signUpWithGoogle } from "../auth/firebase";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        signIn(email, password, navigate);
         console.log(email, password);
     };
+
+    const handleGoogleProvider = () => {
+        signUpWithGoogle()
+    }
 
     return (
         <div className="flex justify-center">
@@ -60,6 +66,7 @@ const Login = () => {
                             <span
                                 role="button"
                                 className="links-a font-[0.75em] cursor-pointer decoration-none text-[#8f8f8f]"
+                                onClick={() => forgotPassword(email)}
                             >
                                 Forgot Password
                             </span>
@@ -78,6 +85,7 @@ const Login = () => {
                         <button
                             className="flex justify-between border-none outline-none bg-[#ff4b45] custom-input w-[300px] mt-[15px] rounded-[4px] font-[600] cursor-pointer"
                             type="button"
+                            onClick={handleGoogleProvider}
                         >
                             Continue with Google
                             <GoogleIcon color="currentColor" />

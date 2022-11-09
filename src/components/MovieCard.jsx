@@ -1,11 +1,13 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContextProvider'
 
 const MovieCard = ({ movie, setMovie }) => {
     const [query, setQuery] = useState("")
     const [search, setSearch] = useState([])
     const navigate = useNavigate();
+    const { currentUser } = useContext(AuthContext)
 
     const API_KEY = "27d05fb6cb3bce22b091f27ecff900a2"
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
@@ -54,7 +56,7 @@ const MovieCard = ({ movie, setMovie }) => {
                             </div>
                             <div className="flex justify-between h-[3rem] p-1">
                                 <div className="text-white pt-4">{item?.title}</div>
-                                <div className="border-2 bg-yellow-400 p-2 shadow-sm shadow-current">{item?.vote_average?.toFixed(1)}</div>
+                                {currentUser && <div className="border-2 bg-yellow-400 p-2 shadow-sm shadow-current">{item?.vote_average?.toFixed(1)}</div>}
                             </div>
 
                             <div className="overview absolute bg-slate-400 opacity-80 bottom-0 ">

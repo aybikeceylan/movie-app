@@ -55,7 +55,7 @@ const MovieDetail = () => {
         <>
             <h1 className='text-gray-900 text-4xl font-bold text-center'>{details?.original_title}</h1>
             <div className="flex justify-center h-96 m-5 w-auto" >
-                <iframe src={`https://www.youtube.com/embed/${video[random]?.key}`} frameborder="0" allowfullscreen></iframe>
+                <iframe src={`https://www.youtube.com/embed/${video[random]?.key}?autoplay=1&mute=1`} frameborder="0" allowfullscreen></iframe>
             </div>
             <div className="flex justify-center">
                 <div className="flex md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import avatar from "../assets/icons/avatar.png";
+import { AuthContext } from '../context/AuthContextProvider';
 
 
 const Navbar = () => {
-    const currentUser = { displayName: "felix franko" };
+    const { currentUser } = useContext(AuthContext)
     return (
         <>
             <nav className="w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-white shadow-lg navbar navbar-expand-lg">
