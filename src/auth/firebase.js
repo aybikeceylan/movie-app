@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth"
+import { toastErrorNotify, toastSuccessNotify, toastWarnNotify } from "../helpers/ToastNotify";
 
 
 //* Your web app's Firebase configuration
@@ -21,6 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app)
+
 
 export const createUser = async (email, password, navigate, displayName) => {
     //? yeni bir kullanıcı oluşturmak için kullanılan firebase metodu
@@ -48,6 +50,7 @@ export const signIn = async (email, password, navigate) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
         navigate("/");
+        toastSuccessNotify("Logged in Succesfully!")
     } catch (error) {
         alert(error.message);
     }
@@ -58,10 +61,11 @@ export const userObserver = (setCurrentUser) => {
     //? Kullanıcının signin olup olmadığını takip eden ve kullanıcı değiştiğinde yeni kullanıcıyı response olarak dönen firebase metodu
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            const { email, displayName, photoUrl } = user
-            setCurrentUser({ email, displayName, photoUrl })
+            const { email, displayName, photoURL } = user;
+            setCurrentUser({ email, displayName, photoURL });
             console.log(user);
         } else {
+            setCurrentUser(false);
             console.log("user signed out");
         }
     });

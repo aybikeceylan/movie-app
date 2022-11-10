@@ -1,16 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const MovieDetail = () => {
     const [details, setDetails] = useState([])
     const [random, setRandom] = useState("")
     const [video, setVideo] = useState([])
-    const { state: item } = useLocation()
-    console.log(item.id);
+    const { id } = useParams
 
     const API_KEY = "27d05fb6cb3bce22b091f27ecff900a2"
-    const ID = item.id
+    const ID = id
     const url = `https://api.themoviedb.org/3/movie/${ID}?api_key=${API_KEY}`
     const urlVideo = `https://api.themoviedb.org/3/movie/${ID}/videos?api_key=${API_KEY}`
 
@@ -58,7 +57,7 @@ const MovieDetail = () => {
                 <iframe src={`https://www.youtube.com/embed/${video[random]?.key}?autoplay=1&mute=1`} frameborder="0" allowfullscreen></iframe>
             </div>
             <div className="flex justify-center">
-                <div className="flex md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
+                <div className="flex flex-col lg:flex-row max-w-6xl rounded-lg bg-white shadow-lg">
                     <img className=" w-full h-[28rem] md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg" src={`https://image.tmdb.org/t/p/w1280${details?.poster_path}`} alt="" />
                     <div className="flex flex-col justify-start h-[28rem]">
                         <h5 className="text-gray-900 text-xl font-medium border-2 h-12">Overview</h5>
