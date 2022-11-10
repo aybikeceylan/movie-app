@@ -1,15 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const MovieDetail = () => {
     const [details, setDetails] = useState([])
     const [random, setRandom] = useState("")
     const [video, setVideo] = useState([])
-    const { id } = useParams
+    const { state: item } = useLocation()
+    console.log(item.id);
 
     const API_KEY = "27d05fb6cb3bce22b091f27ecff900a2"
-    const ID = id
+    const ID = item.id
     const url = `https://api.themoviedb.org/3/movie/${ID}?api_key=${API_KEY}`
     const urlVideo = `https://api.themoviedb.org/3/movie/${ID}/videos?api_key=${API_KEY}`
 
@@ -53,12 +54,12 @@ const MovieDetail = () => {
     return (
         <>
             <h1 className='text-gray-900 text-4xl font-bold text-center'>{details?.original_title}</h1>
-            <div className="flex justify-center h-96 m-5 w-auto" >
+            <div className="flex justify-center w-10/12 md:w-3/5 mx-auto my-3" >
                 <iframe src={`https://www.youtube.com/embed/${video[random]?.key}?autoplay=1&mute=1`} frameborder="0" allowfullscreen></iframe>
             </div>
             <div className="flex justify-center">
-                <div className="flex flex-col lg:flex-row max-w-6xl rounded-lg bg-white shadow-lg">
-                    <img className=" w-full h-[28rem] md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg" src={`https://image.tmdb.org/t/p/w1280${details?.poster_path}`} alt="" />
+                <div className="flex flex-col lg:flex-row max-w-6xl  rounded-lg bg-white shadow-lg">
+                    <img className="lg:w-1/3 h-96 lg:h-[600px] object-cover rounded-t-lg md:rounded-none md:rounded-l-lg" src={`https://image.tmdb.org/t/p/w1280${details?.poster_path}`} alt="" />
                     <div className="flex flex-col justify-start h-[28rem]">
                         <h5 className="text-gray-900 text-xl font-medium border-2 h-12">Overview</h5>
                         <p className="text-gray-700 text-base border-2 h-80">

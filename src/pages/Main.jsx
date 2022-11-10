@@ -1,13 +1,15 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MovieCard from '../components/MovieCard'
+import { AuthContext } from '../context/AuthContextProvider'
 
 
 const Movie = () => {
     const [movie, setMovie] = useState([])
     const API_KEY = "27d05fb6cb3bce22b091f27ecff900a2"
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`
-
+    const { currentUser } = useContext(AuthContext)
+    console.log(currentUser);
     const getMovie = async () => {
         try {
             const movieData = await axios(url)

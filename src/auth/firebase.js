@@ -19,10 +19,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app)
-
+const auth = getAuth(app);
 
 export const createUser = async (email, password, navigate, displayName) => {
     //? yeni bir kullanıcı oluşturmak için kullanılan firebase metodu
@@ -37,9 +36,11 @@ export const createUser = async (email, password, navigate, displayName) => {
             displayName: displayName,
         });
         navigate("/");
-        console.log(userCredential);
+        toastSuccessNotify("Registered successfully!");
+        // console.log(userCredential);
     } catch (error) {
-        alert(error.message);
+        toastErrorNotify(error.message);
+        // alert(error.message);
     }
 };
 
@@ -50,19 +51,20 @@ export const signIn = async (email, password, navigate) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
         navigate("/");
-        toastSuccessNotify("Logged in Succesfully!")
+        toastSuccessNotify("Logged in successfully!");
     } catch (error) {
-        alert(error.message);
+        toastErrorNotify(error.message);
+        // alert(error.message);
     }
 };
 
-
-export const userObserver = (setCurrentUser) => {
+export const userObserver = (setCurrentUser, currentUser) => {
     //? Kullanıcının signin olup olmadığını takip eden ve kullanıcı değiştiğinde yeni kullanıcıyı response olarak dönen firebase metodu
     onAuthStateChanged(auth, (user) => {
         if (user) {
             const { email, displayName, photoURL } = user;
             setCurrentUser({ email, displayName, photoURL });
+            console.log(currentUser);
             console.log(user);
         } else {
             setCurrentUser(false);
@@ -71,9 +73,11 @@ export const userObserver = (setCurrentUser) => {
     });
 };
 
-export const logout = () => {
-    signOut(auth)
-}
+export const logOut = (navigate) => {
+    signOut(auth);
+    toastSuccessNotify("Logged out successfully!");
+    navigate("/login")
+};
 
 //* https://console.firebase.google.com/
 //* => Authentication => sign-in-method => enable Google
@@ -94,7 +98,6 @@ export const signUpWithGoogle = (navigate) => {
             console.log(error);
         });
 };
-
 
 export const forgotPassword = (email) => {
     //? Email yoluyla şifre sıfırlama için kullanılan firebase metodu

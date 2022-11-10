@@ -29,8 +29,9 @@ const MovieCard = ({ movie, setMovie }) => {
     }
     const handleClick = (e) => {
         if (query && currentUser) {
-            getSearch()
             setQuery(e.target.value)
+            getSearch()
+
             setMovie(search)
             setQuery("")
         } else if (!currentUser) {
@@ -71,7 +72,7 @@ const MovieCard = ({ movie, setMovie }) => {
                         return (
                             <div className="card overflow-hidden border-red-200 border-2 w-1/5 h-[28rem] m-4 shadow-md shadow-current  bg-rose-800 relative" key={index}
                                 onClick={() => {
-                                    navigate(`/details ` + item.id)
+                                    navigate(`/details`, { state: item })
                                     !currentUser && alert("please log in to see details")
                                 }}>
                                 <div className="">

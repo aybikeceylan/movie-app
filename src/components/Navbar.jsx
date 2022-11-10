@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/icons/avatar.png";
-import { logout } from "../auth/firebase";
+import { logOut } from "../auth/firebase";
 import { AuthContext } from "../context/AuthContextProvider";
 import Switch from "./Switch";
 
 const Navbar = () => {
     const { currentUser } = useContext(AuthContext);
+    const navigate = useNavigate();
     //* with custom hook
     // const { currentUser } = useAuthContext();
 
     // const currentUser = { displayName: "felix franko" };
     // const currentUser = false;
+    console.log(currentUser)
     return (
         <>
             <nav className="w-full flex flex-wrap items-center justify-between py-3 bg-white dark:bg-gray-900 dark:text-white shadow-lg navbar navbar-expand-lg fixed-top">
@@ -68,7 +70,7 @@ const Navbar = () => {
                                     <span
                                         className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                         role="button"
-                                        onClick={() => logout()}
+                                        onClick={() => logOut(navigate)}
                                     >
                                         Logout
                                     </span>
